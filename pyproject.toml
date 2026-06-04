@@ -1,15 +1,64 @@
 [build-system]
-requires = ["setuptools >= 80.9.0, < 81"]
+requires = ["setuptools >= 82.0.1, < 83"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "dramatiq"
+description = "Background Task Processing for Python 3."
+readme = "README.md"
+keywords = []
+requires-python = ">= 3.10"
+authors = [
+    { name = "Bogdan Popa", email = "bogdan@cleartype.io" },
+]
+license = "LGPL-3.0-or-later"
+license-files = ["COPYING", "COPYING.LESSER"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: System :: Distributed Computing",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = { attr = "dramatiq.__version__" }
+
+[project.urls]
+Documentation = "https://dramatiq.io"
+Source = "https://github.com/Bogdanp/dramatiq"
+Changelog = "https://dramatiq.io/changelog.html"
+
+[project.scripts]
+dramatiq = "dramatiq.cli:main"
+
+[project.optional-dependencies]
+rabbitmq = ["pika>=1.0,<2.0"]
+redis = ["redis>=4.0,<8.0"]
+memcached = ["pylibmc>=1.5,<2.0"]
+gevent = ["gevent>=25.9.1"]
+prometheus = ["prometheus-client>=0.2"]
+watch = ["watchdog>=6.0.0"]
+# TODO remove all in v3?
+all = ["pika>=1.0,<2.0", "redis>=4.0,<8.0", "pylibmc>=1.5,<2.0", "gevent>=25.9.1", "prometheus-client>=0.2", "watchdog>=6.0.0"]
+
 
 [dependency-groups]
 dev = [
-    {include-group = "test"},
-    {include-group = "lint"},
-    {include-group = "format"},
-    {include-group = "type-check"},
-    {include-group = "build"},
-    {include-group = "docs"},
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "format" },
+    { include-group = "type-check" },
+    { include-group = "build" },
+    { include-group = "docs" },
     "hiredis",
     "twine",
     "wheel",
@@ -32,7 +81,7 @@ format = [
 type-check = [
     "mypy",
     # Include test group so mypy can see the types of the pytest modules the tests import.
-    {include-group = "test"},
+    { include-group = "test" },
 ]
 build = [
     "build",
@@ -63,7 +112,7 @@ multi_line_output = 5
 order_by_type = true
 profile = "black"
 add_imports = [
-# Remove annotations import once we only support python 3.14+
+    # Remove annotations import once we only support python 3.14+
     "from __future__ import annotations",
 ]
 
